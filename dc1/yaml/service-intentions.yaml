@@ -1,0 +1,13 @@
+apiVersion: consul.hashicorp.com/v1alpha1
+kind: ServiceIntentions
+metadata:
+  name: allow
+spec:
+  destination:
+    name: "*"
+  sources:
+    - name: "*"
+      action: allow
+    - name: "*"
+      action: allow
+      peer: dc2

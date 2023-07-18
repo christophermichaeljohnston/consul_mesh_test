@@ -1,0 +1,51 @@
+---
+global:
+  name: consul
+  datacenter: dc1
+  image: hashicorp/consul:1.16.0
+  imageK8S: hashicorp/consul-k8s-control-plane:1.2.0
+  peering:
+    enabled: true
+  tls:
+    enabled: true
+    httpsOnly: false
+  acls:
+    manageSystemACLs: true
+  gossipEncryption:
+    autoGenerate: true
+
+server:
+  replicas: 3
+  extraConfig: |
+    {
+      "performance": {
+        "raft_multiplier": 3
+      },
+      "telemetry": {
+        "disable_hostname": true
+      }
+    }
+
+connectInject:
+  enabled: true
+  default: false
+  replicas: 2
+
+meshGateway:
+  enabled: true
+  replicas: 2
+  service:
+    type: LoadBalancer
+    annotations: |
+      "service.beta.kubernetes.io/aws-load-balancer-internal": "true"
+
+ingressGateways:
+  enabled: true
+  defaults:
+    replicas: 2
+    service:
+      ports:
+      - port: 1292
+      type: LoadBalancer
+      annotations: |
+        "service.beta.kubernetes.io/aws-load-balancer-internal": "true"
