@@ -3,5 +3,6 @@ kind: ProxyDefaults
 metadata:
   name: global
 spec:
+  mutualTLSMode: permissive
   meshGateway:
     mode: local
